@@ -12,7 +12,6 @@ namespace lector1
     {
         static void Main(string[] args)
         {
-           
             //Task 1-3
             Person p = new Person();
             p.fornavn = "Frederik";
@@ -25,7 +24,7 @@ namespace lector1
             p.mor.efternavn = "Jakobsen";
             PersonPrinter.PrintPerson(p);
 
-            //Another way to show have to init person by constructors
+            //Another way to init person by constructors
             p = new Person
             {
                 fornavn = "Frederik",
@@ -60,6 +59,19 @@ namespace lector1
         
         }
     }
+
+    class PrintEvertyhing
+    {
+
+        public void Print()
+        {
+            //Directory d = new Directory().
+            //for()
+        }
+
+
+    }
+
 
     class PersonPrinter
     {
@@ -199,5 +211,4 @@ namespace lector1
         }
 
     }
-
 }
