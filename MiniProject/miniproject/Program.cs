@@ -47,8 +47,7 @@ namespace miniproject
             {
                 Console.WriteLine($"{item.Title}");
             }
-        }
-      
+        } 
     }
 
     class MenuItem
