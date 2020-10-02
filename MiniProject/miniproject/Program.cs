@@ -15,56 +15,17 @@ namespace miniproject
             menu.Add(new MenuItem("Punkt2", "Indhold af punkt 2... det er indtil videre også bare tekst"));
            
             menu.Add(new MenuItem("Et lidt længere menupunkt", "Indhold af punkt 3... det er indtil videre også bare tekst"));
-           
+
+            menu.Add(new MenuItem("Exit", ""));
 
             menu.Start();
-            Console.ReadKey();
-        }
-    }
 
-    class Menu
-    {
-        string _title;
 
-        List<MenuItem> menuItems = new List<MenuItem>();
-
-        public Menu(string title)
-        {
-            _title = title;
-        }
-
-        public void Add(MenuItem item)
-        {
-            menuItems.Add(item);
-        }
-
-        public void Start()
-        {
-            Console.Clear();
-            Console.SetCursorPosition(10, 0);
-            Console.WriteLine($"[{_title}]");
-            foreach(MenuItem item in menuItems)
+            while(true)
             {
-                Console.WriteLine($"{item.Title}");
+                menu.HandleKeyEvent(Console.ReadKey());
+
             }
-        } 
-    }
-
-    class MenuItem
-    {
-        public string Content { get; set; }
-        public string Title { get; set; }
-
-        public MenuItem(string title, string content)
-        {
-            Title = title;
-            Content = content;
-        }
-
-        public void Select()
-        {
-
         }
     }
-
 }
