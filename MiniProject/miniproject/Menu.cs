@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,8 +35,8 @@ namespace miniproject
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"{item.Title}");
             }
-            Console.SetCursorPosition(0, 1);
-            SelectMenuItem(0);
+            //Console.SetCursorPosition(0, 1);
+            //SelectMenuItem(0);
         }
 
         public void HandleKeyEvent(ConsoleKeyInfo key)
@@ -62,9 +63,13 @@ namespace miniproject
 
         void SelectMenuItem(int itemPos)
         {
+            int pos = Console.CursorTop;
+
+            //Console.SetCursorPosition(0, pos);
+
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"{menuItems[Console.CursorTop - 1].Title}");
+            Console.WriteLine($"{menuItems[pos  - 1].Title}");
             
             Console.SetCursorPosition(0, itemPos + 1);
 
@@ -77,14 +82,14 @@ namespace miniproject
         void MoveUp()
         {
             int pos = Console.CursorTop--;
-            if (pos < 0)
+            if (pos < 1)
                 pos = menuItems.Count - 1;
             SelectMenuItem(pos);
         }
 
         void MoveDown()
         {
-            int pos = (Console.CursorTop++) % menuItems.Count;
+            int pos = (Console.CursorTop - 1) % menuItems.Count;
             SelectMenuItem(pos);
         }
     }
