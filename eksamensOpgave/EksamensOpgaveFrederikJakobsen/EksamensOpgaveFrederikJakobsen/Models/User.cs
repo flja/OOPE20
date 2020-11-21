@@ -25,6 +25,8 @@ namespace EksamensOpgaveFrederikJakobsen.Models
             Balance = balance;
         }
 
+        public decimal Balance1 { get => balance; set => balance = value; }
+
         int Id
         {
             get
@@ -39,7 +41,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("Number must be 1 or above!");
             }
         }
-        string FirstName 
+        public string FirstName 
         {
             get
             {
@@ -53,7 +55,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
         }
-        string LastName 
+        public string LastName 
         { 
             get
             {
@@ -67,7 +69,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
         }
-        string Username
+        public string Username
         {
             get
             {
@@ -81,7 +83,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("Username can only contain [0-9], [a-z], '_'");
             }
         }
-        string Email 
+        public string Email 
         {
             get
             {
@@ -95,15 +97,15 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("");
             }
         }
-        decimal Balance
+        public decimal Balance
         {
             get
             {
-                return balance;
+                return Balance1;
             }
             set
             {
-                balance = value;
+                Balance1 = value;
             }
         }
 

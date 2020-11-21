@@ -19,16 +19,18 @@ namespace EksamensOpgaveFrederikJakobsen.Models
 
         public decimal Amount { get => amount; set => amount = value; }
         internal User User { get => user; set => user = value; }
+        public DateTime TransactionDate { get => transactionDate; private set => transactionDate = value; }
 
         public override string ToString()
         {
             return $"Id: {id}, Bruger: {User.ToString()}, Beløb: {Amount}, " +
-                $"Dato: {transactionDate.ToString("dd-MM-yyyy HH:mm")}";
+                $"Dato: {TransactionDate.ToString("dd-MM-yyyy HH:mm")}";
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
-            transactionDate = DateTime.Now;
+            TransactionDate = DateTime.Now;
+            user.Balance += amount;
         }
     }
 }
