@@ -5,6 +5,9 @@ using EksamensOpgaveFrederikJakobsen.Util;
 
 namespace EksamensOpgaveFrederikJakobsen.Models
 {
+    delegate void UserBalanceNotification(User user, decimal balance);
+    
+
     class User : IComparable
     {
         int id;
@@ -13,6 +16,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
         string username;
         string email;
         decimal balance;
+        public UserBalanceNotification UserBalanceNotification;
 
         public User(int id, string firstName, string lastName, 
             string userName, string email, decimal balance)
@@ -24,8 +28,6 @@ namespace EksamensOpgaveFrederikJakobsen.Models
             Email = email;
             Balance = balance;
         }
-
-        public decimal Balance1 { get => balance; set => balance = value; }
 
         int Id
         {
@@ -101,12 +103,20 @@ namespace EksamensOpgaveFrederikJakobsen.Models
         {
             get
             {
-                return Balance1;
+                CheckForLowBalance();
+                return balance;
             }
             set
             {
-                Balance1 = value;
+                balance = value;
+                CheckForLowBalance();
             }
+        }
+
+        private void CheckForLowBalance()
+        {
+            if (balance < 50)
+                UserBalanceNotification?.Invoke(this, balance);
         }
 
         public int CompareTo(object obj)

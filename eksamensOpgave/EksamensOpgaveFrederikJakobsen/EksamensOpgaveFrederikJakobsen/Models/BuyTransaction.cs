@@ -8,9 +8,9 @@ namespace EksamensOpgaveFrederikJakobsen.Models
     class BuyTransaction : Transaction
     {
         Product product;
-        public BuyTransaction(User user, Decimal amount): base(user, amount)
+        public BuyTransaction(User user, Product product) : base(user, product.Price)
         {
-
+            Product = product;
         }
 
         internal Product Product { get => product; set => product = value; }
@@ -22,11 +22,11 @@ namespace EksamensOpgaveFrederikJakobsen.Models
 
         public override void Execute()
         {
-            if(!product.Active)
+            if (!product.Active)
                 throw new InaktivProductPurchaseExceptions(Product, "Selected product is not available");
 
             if (User.Balance - Amount < 0)
-                if(!product.CanBeBoughtOnCredit)
+                if (!product.CanBeBoughtOnCredit)
                     throw new InsufficientCreditsException(User, Product, "User balance insufficient");
 
             base.Execute();
