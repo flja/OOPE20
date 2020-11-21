@@ -22,5 +22,17 @@ namespace EksamensOpgaveFrederikJakobsen.Util
         {
             return true;
         }
+
+        /// <summary>
+        /// Takes a geneic value and throw a null exception if null
+        /// </summary>
+        /// <typeparam name="T">Geneic type</typeparam>
+        /// <param name="value">Value to null check</param>
+        /// <returns></returns>
+        static public T NullCheck<T>(T value)
+        {
+            return value == null ? throw new ArgumentNullException() : value;
+        }
+
     }
 }
