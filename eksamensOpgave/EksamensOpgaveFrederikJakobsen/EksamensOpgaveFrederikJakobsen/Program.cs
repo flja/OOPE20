@@ -1,4 +1,5 @@
 ﻿using System;
+using EksamensOpgaveFrederikJakobsen.Interfaces;
 
 namespace EksamensOpgaveFrederikJakobsen
 {
@@ -6,7 +7,10 @@ namespace EksamensOpgaveFrederikJakobsen
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IStregsystem stregsystem = new Stregsystem();
+            IStregsystemUI ui = new StregsystemCLI(stregsystem);
+            StregsystemController sc = new StregsystemController(ui, stregsystem);
+            ui.Start();
         }
     }
 }

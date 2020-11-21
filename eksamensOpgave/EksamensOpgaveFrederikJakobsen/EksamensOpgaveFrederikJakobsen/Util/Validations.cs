@@ -5,7 +5,7 @@ using System.Text;
 namespace EksamensOpgaveFrederikJakobsen.Util
 {
     
-    public static class Validations
+    static class Validations
     {
         static public bool ValidateName(string name)
         {
