@@ -15,11 +15,11 @@ namespace EksamensOpgaveFrederikJakobsen.Models
         string lastName;
         string username;
         string email;
-        decimal balance;
+        int balance;
         public UserBalanceNotification UserBalanceNotification;
 
         public User(int id, string firstName, string lastName, 
-            string userName, string email, decimal balance)
+            string username, string email, int balance)
         {
             Id = id;
             FirstName = firstName;
@@ -99,7 +99,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("");
             }
         }
-        public decimal Balance
+        public int Balance
         {
             get
             {

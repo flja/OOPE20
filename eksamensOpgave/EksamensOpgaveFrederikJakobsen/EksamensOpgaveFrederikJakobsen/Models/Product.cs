@@ -9,23 +9,21 @@ namespace EksamensOpgaveFrederikJakobsen.Models
     {
         int id;
         string name;
-        decimal price;
+        int price;
         bool active;
         bool canBeBoughtOnCredit;
 
-        public Product(int id, string productName, decimal price, bool active, bool canBeBoughtOnCredit)
+        public Product(int id, string productName, int price, bool active)
         {
             Id = id;
             Name = productName;
             Price = price;
-            Active = active;
-            CanBeBoughtOnCredit = canBeBoughtOnCredit;
         }
 
         public int Id
         {
             get => id;
-            set
+            private set
             {
                 if (value >= 1)
                     id = value;
@@ -44,7 +42,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
         }
-        public decimal Price { get => price; set => price = value; }
+        public int Price { get => price; set => price = value; }
         public bool Active { get => active; set => active = value; }
         public bool CanBeBoughtOnCredit { get => canBeBoughtOnCredit; set => canBeBoughtOnCredit = value; }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Linq;
 using EksamensOpgaveFrederikJakobsen.Util;
 using EksamensOpgaveFrederikJakobsen.Models;
@@ -20,10 +20,48 @@ namespace EksamensOpgaveFrederikJakobsen
 
         public Stregsystem()
         {
-            //List<Product> products, List< User > users, List<Transaction> transactions
-            //Products = products;
-            //Users = users;
-            //Transactions = transactions;
+            LoadUsers();
+            LoadProducts();
+        }
+
+        void LoadUsers()
+        {
+            User user;
+            string[] subLines;
+            string[] lines = Properties.Resources.users.Split(new char[] { '\n'});
+
+            for(int i = 1; i < lines.Length; i++)
+            {
+                string s = lines[i];
+                subLines = s.Split(new char[] { ',' });
+                if(subLines.Length >= 6)
+                {
+                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2], subLines[3], subLines[5], int.Parse(subLines[4]));
+                    users.Add(user);
+                }
+            }
+        }
+
+        void LoadProducts()
+        {
+            Product product;
+            string[] subLines;
+            string[] lines = Properties.Resources.products.Split(new char[] { '\n' });
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                //HTML remove source : https://www.dotnetperls.com/remove-html-tags
+                string s = Regex.Replace(lines[i], "<.*?>", string.Empty);
+                subLines = s.Split(new char[] { ';' });
+                if (subLines.Length >= 5)
+                {
+                    product = new Product(
+                        int.Parse(subLines[0]), 
+                        subLines[1], int.Parse(subLines[2]), 
+                        subLines[3] == "0" ? true : false);
+                    products.Add(product);
+                }
+            }
         }
 
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)

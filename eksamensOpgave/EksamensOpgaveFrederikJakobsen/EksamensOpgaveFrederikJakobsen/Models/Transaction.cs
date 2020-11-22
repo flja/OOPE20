@@ -9,15 +9,15 @@ namespace EksamensOpgaveFrederikJakobsen.Models
         int id;
         User user;
         DateTime transactionDate;
-        decimal amount;
+        int amount;
 
-        public Transaction(User user, decimal amount)
+        public Transaction(User user, int amount)
         {
             User = user; 
             Amount = amount;
         }
 
-        public decimal Amount { get => amount; set => amount = value; }
+        public int Amount { get => amount; set => amount = value; }
         internal User User { get => user; set => user = value; }
         public DateTime TransactionDate { get => transactionDate; private set => transactionDate = value; }
 
