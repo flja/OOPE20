@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.Models;
+using EksamensOpgave.Models;
 
-namespace EksamensOpgaveFrederikJakobsen.Interfaces
+namespace EksamensOpgave.Interfaces
 {
+    delegate void StregsystemEvent(string command);
+
     interface IStregsystemUI
     {
         void DisplayUserNotFound(string username); 
@@ -16,7 +18,7 @@ namespace EksamensOpgaveFrederikJakobsen.Interfaces
         void DisplayUserBuysProduct(int count, BuyTransaction transaction); 
         void Close(); void DisplayInsufficientCash(User user, Product product); 
         void DisplayGeneralError(string errorString); 
-        void Start(); 
-        //event StregsystemEvent CommandEntered;
+        void Start();
+        event StregsystemEvent CommandEntered;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.Util;
+using EksamensOpgave.Util;
 
-namespace EksamensOpgaveFrederikJakobsen.Models
+namespace EksamensOpgave.Models
 {
     class Product
     {
@@ -18,6 +18,7 @@ namespace EksamensOpgaveFrederikJakobsen.Models
             Id = id;
             Name = productName;
             Price = price;
+            Active = active;
         }
 
         public int Id
@@ -45,10 +46,9 @@ namespace EksamensOpgaveFrederikJakobsen.Models
         public int Price { get => price; set => price = value; }
         public bool Active { get => active; set => active = value; }
         public bool CanBeBoughtOnCredit { get => canBeBoughtOnCredit; set => canBeBoughtOnCredit = value; }
-
         public override string ToString()
         {
-            return $"Id:{id}. Produkt: {name}, Pris: {price}";
+            return $"Id:{id}. Produkt: {name}, Pris: {price * 0.001}DKK";
         }
 
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EksamensOpgaveFrederikJakobsen.Util
+namespace EksamensOpgave.Util
 {
     
     static class Validations

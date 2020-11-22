@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.Util;
+using EksamensOpgave.Util;
 
-namespace EksamensOpgaveFrederikJakobsen.Models
+namespace EksamensOpgave.Models
 {
     class SeasonalProduct
     {

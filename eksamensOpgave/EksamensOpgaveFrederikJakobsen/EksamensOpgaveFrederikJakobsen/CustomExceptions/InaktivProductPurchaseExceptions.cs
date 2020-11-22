@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.Models;
+using EksamensOpgave.Models;
 
-namespace EksamensOpgaveFrederikJakobsen.CustomExceptions
+namespace EksamensOpgave.CustomExceptions
 {
     class InaktivProductPurchaseExceptions : Exception
     {

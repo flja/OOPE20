@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
-using EksamensOpgaveFrederikJakobsen.Util;
-using EksamensOpgaveFrederikJakobsen.Models;
-using EksamensOpgaveFrederikJakobsen.CustomExceptions;
-using EksamensOpgaveFrederikJakobsen.Interfaces;
+using EksamensOpgave.Util;
+using EksamensOpgave.Models;
+using EksamensOpgave.CustomExceptions;
+using EksamensOpgave.Interfaces;
 
-namespace EksamensOpgaveFrederikJakobsen
+namespace EksamensOpgave
 {
     class Stregsystem : IStregsystem
     {
@@ -23,6 +23,9 @@ namespace EksamensOpgaveFrederikJakobsen
             LoadUsers();
             LoadProducts();
         }
+
+        private List<User> Users { get => users; set => users = Validations.NullCheck(value); }
+        private List<Transaction> Transactions { get => transactions; set => transactions = Validations.NullCheck(value); }
 
         void LoadUsers()
         {
@@ -50,7 +53,7 @@ namespace EksamensOpgaveFrederikJakobsen
 
             for (int i = 1; i < lines.Length; i++)
             {
-                //HTML remove source : https://www.dotnetperls.com/remove-html-tags
+                //HTML remove syntax source : https://www.dotnetperls.com/remove-html-tags
                 string s = Regex.Replace(lines[i], "<.*?>", string.Empty);
                 subLines = s.Split(new char[] { ';' });
                 if (subLines.Length >= 5)
@@ -58,7 +61,8 @@ namespace EksamensOpgaveFrederikJakobsen
                     product = new Product(
                         int.Parse(subLines[0]), 
                         subLines[1], int.Parse(subLines[2]), 
-                        subLines[3] == "0" ? true : false);
+                        (subLines[3] == "1" ? true : false));
+                    product.Name = product.Name.Replace("\"", "");
                     products.Add(product);
                 }
             }
@@ -66,9 +70,6 @@ namespace EksamensOpgaveFrederikJakobsen
 
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
-            User u = Users.Where(u => u.Equals(Users)).FirstOrDefault();
-            if (u == null)
-                throw new KeyNotFoundException("No user found");
             InsertCashTransaction ict = new InsertCashTransaction(user, amount);
             ict.Execute();
             Transactions.Add(ict);
@@ -78,13 +79,14 @@ namespace EksamensOpgaveFrederikJakobsen
         {
             BuyTransaction t = new BuyTransaction(user, product);
             t.Execute();
+            transactions.Add(t);
             return t;
         }
         public Product GetProductByID(int id)
         {
             Product product = Products.Where(p => p.Id == id).FirstOrDefault();
             if (product == null)
-                throw new KeyNotFoundException("No product found");
+                throw new ProductNotFoundException(id ,"No product with entered ID found");
             return product;
         }
         public IEnumerable<Transaction> GetTransactions(User user, int count)
@@ -110,7 +112,5 @@ namespace EksamensOpgaveFrederikJakobsen
             }
         }
         private List<Product> Products { get => products; set => products = Validations.NullCheck(value); }
-        private List<User> Users { get => users; set => users = Validations.NullCheck(value); }
-        private List<Transaction> Transactions { get => transactions; set => transactions = Validations.NullCheck(value); }
     }
 }

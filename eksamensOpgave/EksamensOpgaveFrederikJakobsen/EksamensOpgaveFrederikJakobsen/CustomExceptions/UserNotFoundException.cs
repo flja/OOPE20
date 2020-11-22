@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.Models;
+using EksamensOpgave.Models;
 
-namespace EksamensOpgaveFrederikJakobsen.CustomExceptions
+namespace EksamensOpgave.CustomExceptions
 {
     class UserNotFoundException : KeyNotFoundException
     {
@@ -13,6 +13,6 @@ namespace EksamensOpgaveFrederikJakobsen.CustomExceptions
             User = username;
         }
 
-        internal string User { get => user; set => user = value; }
+        public string User { get => user; private set => user = value; }
     }
 }

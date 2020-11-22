@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EksamensOpgaveFrederikJakobsen.CustomExceptions;
+using EksamensOpgave.CustomExceptions;
 
-namespace EksamensOpgaveFrederikJakobsen.Models
+namespace EksamensOpgave.Models
 {
     class BuyTransaction : Transaction
     {
         Product product;
-        public BuyTransaction(User user, Product product) : base(user, product.Price)
+        public BuyTransaction(User user, Product product) : base(user, product.Price * -1)
         {
             Product = product;
         }
