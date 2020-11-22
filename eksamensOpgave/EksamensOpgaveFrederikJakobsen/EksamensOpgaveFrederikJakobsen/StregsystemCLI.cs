@@ -12,7 +12,7 @@ namespace EksamensOpgave
     {
         bool stayAlive;
         string title = "STREGSYSTEM";
-        string description = "Syntax til køb: [username] [Id]";
+        string description = "Syntax til køb: \"[username] [Produkt ID]\"";
         int windowHeight = 35;
         int idStrLength = 5;
         int productStrLength = 50;
