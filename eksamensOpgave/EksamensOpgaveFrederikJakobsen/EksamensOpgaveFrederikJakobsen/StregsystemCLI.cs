@@ -51,7 +51,7 @@ namespace EksamensOpgave
             throw new NotImplementedException();
         }
 
-        public void DisplayTooManyArgumentsError(string command)
+        public void DisplayArgumentCountError(string command)
         {
             throw new NotImplementedException();
         }
