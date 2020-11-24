@@ -25,6 +25,7 @@ namespace EksamensOpgave
             if(cmd?.Length > 0)
             {
                 cmd = cmd.ToLower();
+
                 switch (cmd[0])
                 {
                     case ':':
@@ -96,7 +97,7 @@ namespace EksamensOpgave
                     }
                     catch(InaktivProductPurchaseExceptions)
                     {
-                        stregsystemUI.DisplayGeneralError($"{product.ToString()} er ikke længere aktivt");
+                        stregsystemUI.DisplayGeneralError($"{product} er ikke længere aktivt");
                     }
                     catch(InsufficientCreditsException)
                     {
@@ -128,6 +129,68 @@ namespace EksamensOpgave
                             stregsystemUI.Close();
                         break;
                     }
+                case 2:
+                    {
+                        if(inputs[0] == ":activate" || inputs[0] == ":deactivate")
+                        {
+                            try
+                            {
+                                int productId = int.Parse(inputs[1]);
+                                Product p = stregsystem.GetProductByID(productId);
+                                if(p.GetType() != typeof(SeasonalProduct))
+                                    p.Active = inputs[0] == ":activate" ? true : false;
+                            }
+                            catch(ProductNotFoundException)
+                            {
+                                stregsystemUI.DisplayProductNotFound(inputs[1]);
+                            }
+                            catch(FormatException)
+                            {
+                                stregsystemUI.DisplayGeneralError("Product ID was not a number");
+                            }
+                        }
+                        else if (inputs[0] == ":crediton" || inputs[0] == ":creditoff")
+                        {
+                            try
+                            {
+                                int productId = int.Parse(inputs[1]);
+                                Product p = stregsystem.GetProductByID(productId);
+                                    p.CanBeBoughtOnCredit = inputs[0] == ":crediton" ? true : false;
+                            }
+                            catch (ProductNotFoundException)
+                            {
+                                stregsystemUI.DisplayProductNotFound(inputs[1]);
+                            }
+                            catch (FormatException)
+                            {
+                                stregsystemUI.DisplayGeneralError("Product ID was not a number");
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        if(inputs[0] == ":addcredits")
+                        {
+                            try
+                            {
+                                int value = int.Parse(inputs[2]);
+                                stregsystem.GetUserByUsername(inputs[1]).Balance += value;
+                            }
+                            catch(UserNotFoundException)
+                            {
+                                stregsystemUI.DisplayUserNotFound(inputs[1]);
+                            }
+                            catch(FormatException)
+                            {
+                                stregsystemUI.DisplayGeneralError("Product ID was not a number");
+                            }
+                        }
+                        break;
+                    }
+                default:
+                    stregsystemUI.DisplayAdminCommandNotFoundMessage(inputs[0]);
+                    break;
             }
         }
 
