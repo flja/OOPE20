@@ -24,6 +24,7 @@ namespace EksamensOpgave
         {
             if(cmd?.Length > 0)
             {
+                cmd = cmd.ToLower();
                 switch (cmd[0])
                 {
                     case ':':

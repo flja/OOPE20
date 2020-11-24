@@ -39,7 +39,7 @@ namespace EksamensOpgave
                 subLines = s.Split(new char[] { ',' });
                 if(subLines.Length >= 6)
                 {
-                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2], subLines[3], subLines[5], int.Parse(subLines[4]));
+                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]));
                     users.Add(user);
                 }
             }
