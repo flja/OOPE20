@@ -43,7 +43,7 @@ namespace EksamensOpgave
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            Console.WriteLine($"Ikke nok midler tilrådig: {user}\n, ved køb af, {product}");
+            Console.WriteLine($"Ikke nok midler tilrådige: {user}\n, ved køb af, {product}");
         }
 
         public void DisplayProductNotFound(string product)
@@ -58,9 +58,9 @@ namespace EksamensOpgave
 
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
-            Console.WriteLine($"Produkt købt: {transaction}");
+            Console.WriteLine(transaction.ToString());
         }
-
+        
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
             Console.WriteLine($"proukter købt:");
@@ -134,6 +134,16 @@ namespace EksamensOpgave
                 Console.Write(toWrite);
             }
             Console.WriteLine("");
+        }
+
+        public void DisplayProductInactive(string productID)
+        {
+            Console.WriteLine($"Produkt med ID: {productID} er ikke aktivt");
+        }
+
+        public void DisplayAdminCommandSucced(string adminCommand)
+        {
+            Console.WriteLine($"Admin command: {adminCommand} er udført");
         }
     }
 }

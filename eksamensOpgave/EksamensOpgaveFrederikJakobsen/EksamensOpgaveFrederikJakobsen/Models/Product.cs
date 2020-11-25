@@ -48,7 +48,7 @@ namespace EksamensOpgave.Models
         public bool CanBeBoughtOnCredit { get => canBeBoughtOnCredit; set => canBeBoughtOnCredit = value; }
         public override string ToString()
         {
-            return $"Id:{id}. Produkt: {name}, Pris: {price * 0.001}DKK";
+            return $"Id:{id}| {name} | Pris: {price * 0.01f}DKK";
         }
 
     }

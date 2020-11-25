@@ -10,10 +10,12 @@ namespace EksamensOpgave.Interfaces
     interface IStregsystemUI
     {
         void DisplayUserNotFound(string username); 
-        void DisplayProductNotFound(string product); 
+        void DisplayProductNotFound(string product);
+        void DisplayProductInactive(string product);
         void DisplayUserInfo(User user); 
         void DisplayArgumentCountError(string command); 
-        void DisplayAdminCommandNotFoundMessage(string adminCommand); 
+        void DisplayAdminCommandNotFoundMessage(string adminCommand);
+        void DisplayAdminCommandSucced(string adminCommand);
         void DisplayUserBuysProduct(BuyTransaction transaction); 
         void DisplayUserBuysProduct(int count, BuyTransaction transaction); 
         void Close(); void DisplayInsufficientCash(User user, Product product); 

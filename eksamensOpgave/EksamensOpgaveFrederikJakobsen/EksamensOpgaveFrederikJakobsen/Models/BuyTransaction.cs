@@ -7,28 +7,28 @@ namespace EksamensOpgave.Models
 {
     class BuyTransaction : Transaction
     {
-        Product product;
-        public BuyTransaction(User user, Product product) : base(user, product.Price * -1)
+        Product _product;
+        public BuyTransaction(User user, Product product) : base(user, product.Price)
         {
             Product = product;
         }
 
-        internal Product Product { get => product; set => product = value; }
+        internal Product Product { get => _product; set => _product = value; }
 
         public override string ToString()
         {
-            return $"Ordrebekræftelse:\nProdukt: {product.ToString()}\nBruger: {User.ToString()}\nTransaktion: {this.ToString()}";
+            return $"Købt:\n{_product}\n{base.ToString()}";
         }
 
         public override void Execute()
         {
-            if (!product.Active)
+            if (!_product.Active)
                 throw new InaktivProductPurchaseExceptions(Product, "Selected product is not available");
 
             if (User.Balance - Amount < 0)
-                if (!product.CanBeBoughtOnCredit)
+                if (!_product.CanBeBoughtOnCredit)
                     throw new InsufficientCreditsException(User, Product, "User balance insufficient");
-
+            User.Balance -= Product.Price;
             base.Execute();
         }
 

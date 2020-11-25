@@ -21,52 +21,64 @@ namespace EksamensOpgave
             _stregsystemUI = stregsystemCLI;
             _stregsystemUI.CommandEntered += ParseCommand;
 
-            _admincommands.Add(":q", (List<string> cmd) => stregsystemCLI.Close());
-            _admincommands.Add(":quit", (List<string> cmd) => stregsystemCLI.Close());
-            _admincommands.Add(":activate", (List<string> cmd) => HandleActiveDeaktiveProducts(cmd));
-            _admincommands.Add(":deactivate", (List<string> cmd) => HandleActiveDeaktiveProducts(cmd));
-            _admincommands.Add(":crediton", (List<string> cmd) => HandleCreditOn(cmd));
-            _admincommands.Add(":creditoff", (List<string> cmd) => HandleCreditOff(cmd));
+            _admincommands.Add(":q", (List<string> args) => stregsystemCLI.Close());
+            _admincommands.Add(":quit", (List<string> args) => stregsystemCLI.Close());
+            _admincommands.Add(":activate", (List<string> args) => HandleActiveProduct(args));
+            _admincommands.Add(":deactivate", (List<string> args) => HandleDeactiveProduct(args));
+            _admincommands.Add(":crediton", (List<string> args) => HandleCreditOn(args));
+            _admincommands.Add(":creditoff", (List<string> args) => HandleCreditOff(args));
         }
 
         void ParseCommand(string command)
         {
-            if (command?.Length > 0)
+            if (!string.IsNullOrEmpty(command))
             {
                 command = command.ToLower();
-                string[] inputs = command.Split(new char[] { ' ' });
+                List<string> inputs = command.Split(new char[] { ' ' }).ToList();
 
                 try
                 {
-                    _admincommands[inputs[0]](inputs.ToList());
+                    if (command[0] == ':')
+                    {
+                        try
+                        {
+                            _admincommands[inputs[0]](inputs.ToList());
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            _stregsystemUI.DisplayAdminCommandNotFoundMessage(inputs.First());
+                        }
+                    }
+                    else
+                    {
+                        HandleUserCMD(inputs);
+                    }
                 }
-                catch (KeyNotFoundException)
+                catch(ArgumentOutOfRangeException)
                 {
-                    HandleUserCMD(command);
+                    _stregsystemUI.DisplayArgumentCountError(inputs.ElementAt(0));
                 }
             }
             else
             {
-                _stregsystemUI.DisplayGeneralError("Indtasted var ikke en kommando");
+                _stregsystemUI.DisplayGeneralError("Ugyldigt input");
             }
         }
 
-        void HandleUserCMD(string cmd)
+        void HandleUserCMD(List<string> args)
         {
-            string[] inputs = cmd.Split(new char[] { ' ' });
-
             try
             {
-                switch (inputs.Length)
+                switch (args.Count)
                 {
                     case 2:
                         {
-                            HandlePauchause(inputs[0], int.Parse(inputs[1]), 1);
+                            HandlePurchase(args.ElementAt(0), int.Parse(args.ElementAt(1)), 1);
                             break;
                         }
                     case 3:
                         {
-                            HandlePauchause(inputs[0], int.Parse(inputs[2]), int.Parse(inputs[1]));
+                            HandlePurchase(args.ElementAt(0), int.Parse(args.ElementAt(2)), int.Parse(args.ElementAt(1)));
                             break;
                         }
                     default:
@@ -78,8 +90,7 @@ namespace EksamensOpgave
             }
             catch (ArgumentException ex)
             {
-                _stregsystemUI.DisplayGeneralError(" \"ID\" / \"Antal\" skal være et tal");
-                Debug.WriteLine(ex);
+                _stregsystemUI.DisplayGeneralError("Ugyldige indtastninger");
             }
             catch (Exception ex)
             {
@@ -87,12 +98,14 @@ namespace EksamensOpgave
             }
         }
 
-        void HandlePauchause(string username, int productId, int cnt)
+        void HandlePurchase(string username, int productId, int cnt)
         {
+            User user;
+            Product product;
             try
             {
-                User user = _stregsystem.GetUserByUsername(username);
-                Product product = _stregsystem.GetProductByID(productId);
+                user = _stregsystem.GetUserByUsername(username);
+                product = _stregsystem.GetProductByID(productId);
                 for (int i = 0; i < cnt; i++)
                 {
                     try
@@ -102,17 +115,19 @@ namespace EksamensOpgave
                     }
                     catch (InaktivProductPurchaseExceptions)
                     {
-                        _stregsystemUI.DisplayGeneralError($"{product} er ikke længere aktivt");
+                        _stregsystemUI.DisplayProductInactive(productId.ToString());
+                        break;
                     }
                     catch (InsufficientCreditsException)
                     {
                         _stregsystemUI.DisplayInsufficientCash(user, product);
+                        break;
                     }
                 }
             }
             catch (ProductNotFoundException ex)
             {
-                _stregsystemUI.DisplayProductNotFound($"Produkt med Id {productId} kunne ikke findes");
+                _stregsystemUI.DisplayProductNotFound(productId.ToString());
                 Debug.WriteLine(ex);
             }
             catch (UserNotFoundException ex)
@@ -122,54 +137,52 @@ namespace EksamensOpgave
             }
         }
 
-        void HandleActiveDeaktiveProducts(List<string> cmds)
+        void HandleActiveProduct(List<string> args)
+        {
+            HandleActiveDeaktiveProduct(args.ElementAt(0), int.Parse(args.ElementAt(1)), true);
+        }
+
+        void HandleDeactiveProduct(List<string> args)
+        {
+            HandleActiveDeaktiveProduct(args.ElementAt(0), int.Parse(args.ElementAt(1)), false);
+        }
+
+        void HandleActiveDeaktiveProduct(string cmd, int productId, bool setActive)
         {
             try
             {
-                Product p = _stregsystem.GetProductByID(int.Parse(cmds[1]));
+                Product p = _stregsystem.GetProductByID(productId);
                 if (p.GetType() != typeof(SeasonalProduct))
-                    p.Active = cmds[0] == ":activate" ? true : false;
+                    p.Active = setActive;
+                _stregsystemUI.DisplayAdminCommandSucced(cmd);
             }
             catch (ProductNotFoundException)
             {
-                _stregsystemUI.DisplayProductNotFound(cmds[1]);
+                _stregsystemUI.DisplayProductNotFound(productId.ToString());
             }
             catch (FormatException)
             {
-                _stregsystemUI.DisplayGeneralError("Product ID was not a number");
+                _stregsystemUI.DisplayGeneralError("Produkt ID er ikke et tal");
             }
         }
 
-        void HandleCreditOn(List<string> cmds)
+        void HandleCreditOn(List<string> args)
         {
-            try
-            {
-                HandleBuyOnCreditOnOff(cmds[1], true);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                _stregsystemUI.DisplayArgumentCountError($"Forventede 2 værdier men {cmds.Count} modtaget");
-            }
+            HandleBuyOnCreditOnOff(args.ElementAt(0), args.ElementAt(1), true);
         }
 
-        void HandleCreditOff(List<string> cmds)
+        void HandleCreditOff(List<string> args)
         {
-            try
-            {
-                HandleBuyOnCreditOnOff(cmds[1], false);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                _stregsystemUI.DisplayArgumentCountError($"Forventede 2 værdier men {cmds.Count} modtaget");
-            }
+            HandleBuyOnCreditOnOff(args.ElementAt(0), args.ElementAt(1), false);
         }
 
-        void HandleBuyOnCreditOnOff(string productId, bool setActive)
+        void HandleBuyOnCreditOnOff(string cmd, string productId, bool setActive)
         {
             try
             {
                 Product p = _stregsystem.GetProductByID(int.Parse(productId));
                 p.CanBeBoughtOnCredit = setActive;
+                _stregsystemUI.DisplayAdminCommandSucced(cmd);
             }
             catch (ProductNotFoundException)
             {

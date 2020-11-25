@@ -10,12 +10,12 @@ namespace EksamensOpgave.Models
 
     class User : IComparable
     {
-        int id;
-        string firstName;
-        string lastName;
-        string username;
-        string email;
-        int balance;
+        int _id;
+        string _firstName;
+        string _lastName;
+        string _username;
+        string _email;
+        int _balance;
         public UserBalanceNotification UserBalanceNotification;
 
         public User(int id, string firstName, string lastName, 
@@ -33,12 +33,12 @@ namespace EksamensOpgave.Models
         {
             get
             {
-                return id;
+                return _id;
             }
             set
             {
                 if (value >= 1)
-                    id = value;
+                    _id = value;
                 else
                     throw new ArgumentOutOfRangeException("Number must be 1 or above!");
             }
@@ -47,12 +47,12 @@ namespace EksamensOpgave.Models
         {
             get
             {
-                return firstName;
+                return _firstName;
             }
             set
             {
                 if (Validations.ValidateName(value))
-                    firstName = value;
+                    _firstName = value;
                 else
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
@@ -61,12 +61,12 @@ namespace EksamensOpgave.Models
         { 
             get
             {
-                return lastName;
+                return _lastName;
             }
             set
             {
                 if (Validations.ValidateName(value))
-                    lastName = value;
+                    _lastName = value;
                 else
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
@@ -75,12 +75,12 @@ namespace EksamensOpgave.Models
         {
             get
             {
-                return username;
+                return _username;
             }
             set
             {
                 if (Validations.ValidateUserName(value))
-                    username = value;
+                    _username = value;
                 else
                     throw new ArgumentOutOfRangeException("Username can only contain [0-9], [a-z], '_'");
             }
@@ -89,12 +89,12 @@ namespace EksamensOpgave.Models
         {
             get
             {
-                return email;
+                return _email;
             }
             set
             {
                 if (Validations.ValidateEmail(value))
-                    email = value;
+                    _email = value;
                 else
                     throw new ArgumentOutOfRangeException("");
             }
@@ -104,24 +104,24 @@ namespace EksamensOpgave.Models
             get
             {
                 CheckForLowBalance();
-                return balance;
+                return _balance;
             }
             set
             {
-                balance = value;
+                _balance = value;
                 CheckForLowBalance();
             }
         }
 
         private void CheckForLowBalance()
         {
-            if (balance < 50)
-                UserBalanceNotification?.Invoke(this, balance);
+            if (_balance < 50)
+                UserBalanceNotification?.Invoke(this, _balance);
         }
 
         public int CompareTo(object obj)
         {
-            return id.CompareTo(obj);
+            return _id.CompareTo(obj);
         }
         public override bool Equals(object obj)
         {
@@ -133,7 +133,7 @@ namespace EksamensOpgave.Models
         }
         public override string ToString()
         {
-            return $"{firstName} {lastName} ({email})";
+            return $"{_firstName} {_lastName} {_email}";
         }
     }
 }
