@@ -27,7 +27,6 @@ namespace EksamensOpgave
             _admincommands.Add(":deactivate", (List<string> cmd) => HandleActiveDeaktiveProducts(cmd));
             _admincommands.Add(":crediton", (List<string> cmd) => HandleCreditOn(cmd));
             _admincommands.Add(":creditoff", (List<string> cmd) => HandleCreditOff(cmd));
-
         }
 
         void ParseCommand(string command)

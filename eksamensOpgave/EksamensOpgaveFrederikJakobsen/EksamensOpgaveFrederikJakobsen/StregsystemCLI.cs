@@ -33,47 +33,51 @@ namespace EksamensOpgave
 
         public void DisplayAdminCommandNotFoundMessage(string adminCommand)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Kunne ikke finde admin commando {adminCommand}");
         }
 
         public void DisplayGeneralError(string errorString)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"En fejl indtræf: {errorString}");
         }
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Ikke nok midler tilrådig: {user}\n, ved køb af, {product}");
         }
 
         public void DisplayProductNotFound(string product)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Produktet med produkt ID: {product}, kunne ikke findes");
         }
 
         public void DisplayArgumentCountError(string command)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Forket antal agrumenter indtastede: {command}");
         }
 
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Produkt købt: {transaction}");
         }
 
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"proukter købt:");
+            for(int i =0; i < count; i++)
+            {
+                Console.WriteLine(transaction.ToString());
+            }
         }
 
         public void DisplayUserInfo(User user)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Bruger: {user}");
         }
 
         public void DisplayUserNotFound(string username)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Kunne ikke finde bruger med username: {username}");
         }
 
         public void Start()
