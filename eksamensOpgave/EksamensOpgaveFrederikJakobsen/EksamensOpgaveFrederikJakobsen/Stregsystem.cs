@@ -26,7 +26,6 @@ namespace EksamensOpgave
 
         private List<User> Users { get => users; set => users = Validations.NullCheck(value); }
         private List<Transaction> Transactions { get => transactions; set => transactions = Validations.NullCheck(value); }
-
         void LoadUsers()
         {
             User user;
@@ -44,7 +43,6 @@ namespace EksamensOpgave
                 }
             }
         }
-
         void LoadProducts()
         {
             Product product;
@@ -67,7 +65,6 @@ namespace EksamensOpgave
                 }
             }
         }
-
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
             InsertCashTransaction ict = new InsertCashTransaction(user, amount);
