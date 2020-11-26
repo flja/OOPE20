@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using EksamensOpgave.CustomExceptions;
+using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Models
 {
     class BuyTransaction : Transaction
     {
         Product _product;
-        public BuyTransaction(User user, Product product) : base(user, product.Price)
+        public BuyTransaction(User user, Product product, IValidation validation) 
+            : base(user, product.Price, validation)
         {
             Product = product;
         }

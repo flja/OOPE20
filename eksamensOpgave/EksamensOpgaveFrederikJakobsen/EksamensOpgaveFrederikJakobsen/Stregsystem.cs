@@ -11,21 +11,27 @@ namespace EksamensOpgave
 {
     class Stregsystem : IStregsystem
     {
-        List<Product> products = new List<Product>();
-        List<User> users = new List<User>();
-        List<Transaction> transactions = new List<Transaction>();
+        List<Product> _products = new List<Product>();
+        List<User> _users = new List<User>();
+        List<Transaction> _transactions = new List<Transaction>();
+        IValidation _validation;
 
         public event EventHandler LowUserBalance;
         public event UserBalanceNotification UserBalanceWarning;
 
         public Stregsystem()
         {
+            _validation = new Validations(
+                new Regex(@"^[\w\d]+$"), 
+                new Regex(@"^[\w\.\-\,]+@[a-zA-Z0-9][a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$")
+                );
+
             LoadUsers();
             LoadProducts();
         }
 
-        private List<User> Users { get => users; set => users = Validations.NullCheck(value); }
-        private List<Transaction> Transactions { get => transactions; set => transactions = Validations.NullCheck(value); }
+        private List<User> Users { get => _users; set => _users = _validation.NullCheck(value); }
+        private List<Transaction> Transactions { get => _transactions; set => _transactions = _validation.NullCheck(value); }
         void LoadUsers()
         {
             User user;
@@ -38,8 +44,8 @@ namespace EksamensOpgave
                 subLines = s.Split(new char[] { ',' });
                 if(subLines.Length >= 6)
                 {
-                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]));
-                    users.Add(user);
+                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]), _validation);
+                    _users.Add(user);
                 }
             }
         }
@@ -59,24 +65,24 @@ namespace EksamensOpgave
                     product = new Product(
                         int.Parse(subLines[0]), 
                         subLines[1], int.Parse(subLines[2]), 
-                        (subLines[3] == "1" ? true : false));
+                        subLines[3] == "1", _validation);
                     product.Name = product.Name.Replace("\"", "");
-                    products.Add(product);
+                    _products.Add(product);
                 }
             }
         }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
-            InsertCashTransaction ict = new InsertCashTransaction(user, amount);
+            InsertCashTransaction ict = new InsertCashTransaction(user, amount, _validation);
             ict.Execute();
             Transactions.Add(ict);
             return ict;
         }
         public BuyTransaction BuyProduct(User user, Product product)
         {
-            BuyTransaction t = new BuyTransaction(user, product);
+            BuyTransaction t = new BuyTransaction(user, product, _validation);
             t.Execute();
-            transactions.Add(t);
+            _transactions.Add(t);
             return t;
         }
         public Product GetProductByID(int id)
@@ -88,11 +94,16 @@ namespace EksamensOpgave
         }
         public IEnumerable<Transaction> GetTransactions(User user, int count)
         {
-            return Transactions.Where(t => t.User.Equals(user));
+            return Transactions.OrderByDescending(t => t.TransactionDate).Where(s=> s.User.Equals(user)).Take(count);
         }
         public User GetUsers(Func<User, bool> predicate)
         {
-            throw new NotImplementedException();
+            foreach(User user in _users)
+            {
+                if (predicate(user))
+                    return user;
+            }
+            throw new UserNotFoundException("","No user was found");
         }
         public User GetUserByUsername(string username)
         {
@@ -108,6 +119,6 @@ namespace EksamensOpgave
                 return Products.Where(p => p.Active);
             }
         }
-        private List<Product> Products { get => products; set => products = Validations.NullCheck(value); }
+        private List<Product> Products { get => _products; set => _products = _validation.NullCheck(value); }
     }
 }

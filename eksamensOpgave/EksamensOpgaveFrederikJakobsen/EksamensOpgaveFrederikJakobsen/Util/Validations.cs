@@ -1,38 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Util
 {
     
-    static class Validations
+    class Validations : IValidation
     {
-        static public bool ValidateName(string name)
+        Regex _userNameRegex;
+        Regex _emailRegex;
+        
+        public Validations(Regex userNameRegex, Regex emailRegex)
         {
+            _userNameRegex = userNameRegex;
+            _emailRegex = emailRegex;
+        }
+        public bool ValidateName(string name)
+        {
+            
             if (name?.Length > 0)
                 return true;
             else
                 return false;
         }
-        static public bool ValidateUserName(string userName)
+        public bool ValidateUserName(string userName)
         {
-            return true;
+            return _userNameRegex.IsMatch(userName);
         }
-        static public bool ValidateEmail(string email)
+        public bool ValidateEmail(string email)
         {
-            return true;
+            return _emailRegex.IsMatch(email);
         }
-
-        /// <summary>
-        /// Takes a geneic value and throw a null exception if null
-        /// </summary>
-        /// <typeparam name="T">Geneic type</typeparam>
-        /// <param name="value">Value to null check</param>
-        /// <returns></returns>
-        static public T NullCheck<T>(T value)
+        public T NullCheck<T>(T value)
         {
             return value == null ? throw new ArgumentNullException() : value;
         }
-
+        public int UniqueIdChecker(List<int> list, int id)
+        {
+            return list.Contains(id) == true ? id : throw new ArgumentException();
+        }
     }
 }

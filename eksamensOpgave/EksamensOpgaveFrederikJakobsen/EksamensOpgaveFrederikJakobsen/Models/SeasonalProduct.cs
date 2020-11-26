@@ -2,25 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using EksamensOpgave.Util;
+using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Models
 {
-    class SeasonalProduct
+    class SeasonalProduct : Product
     {
-        int id;
-        string name;
-        decimal price;
-        bool canBeboughtOnCredit;
         DateTime seasonEndDate;
         DateTime seasonStartDate;
 
-        public SeasonalProduct(int id, string name, decimal price, bool canBeBoughtOnCredit,
-            DateTime startDate, DateTime endDate)
+        public SeasonalProduct(int id, string name, int price, DateTime startDate, 
+            DateTime endDate, IValidation validation) : base (id, name, price, false, validation)
         {
-
+            SeasonStartDate = startDate;
+            SeasonEndDate = endDate;
         }
 
-        public bool Active
+        new public bool Active
         {
             get
             {
@@ -30,21 +28,6 @@ namespace EksamensOpgave.Models
                     return false;
             }
         }
-
-        public int Id { get => id; set => id = value; }
-        public string Name 
-        { 
-            get => name;
-            set
-            {
-                if (Validations.ValidateName(value))
-                    name = value;
-                else
-                    throw new ArgumentOutOfRangeException("Name can not be empty");
-            }
-        }
-        public decimal Price { get => price; set => price = value; }
-        public bool CanBeboughtOnCredit { get => canBeboughtOnCredit; set => canBeboughtOnCredit = value; }
         public DateTime SeasonEndDate { get => seasonEndDate; set => seasonEndDate = value; }
         public DateTime SeasonStartDate { get => seasonStartDate; set => seasonStartDate = value; }
     }

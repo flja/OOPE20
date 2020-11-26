@@ -88,7 +88,7 @@ namespace EksamensOpgave
                         }
                 }
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 _stregsystemUI.DisplayGeneralError("Ugyldige indtastninger");
             }
