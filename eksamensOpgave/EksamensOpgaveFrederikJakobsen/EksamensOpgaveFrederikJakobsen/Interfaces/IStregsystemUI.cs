@@ -16,7 +16,8 @@ namespace EksamensOpgave.Interfaces
         void DisplayArgumentCountError(string command); 
         void DisplayAdminCommandNotFoundMessage(string adminCommand);
         void DisplayAdminCommandSucced(string adminCommand);
-        void DisplayUserBuysProduct(BuyTransaction transaction); 
+        void DisplayUserBuysProduct(BuyTransaction transaction);
+        void DisplayTransaction(Transaction transaction);
         void DisplayUserBuysProduct(int count, BuyTransaction transaction); 
         void Close(); void DisplayInsufficientCash(User user, Product product); 
         void DisplayGeneralError(string errorString); 

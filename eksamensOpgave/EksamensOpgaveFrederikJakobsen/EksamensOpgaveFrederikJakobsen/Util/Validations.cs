@@ -39,7 +39,7 @@ namespace EksamensOpgave.Util
         }
         public int UniqueIdChecker(List<int> list, int id)
         {
-            return list.Contains(id) == true ? id : throw new ArgumentException();
+            return list.Contains(id) == false ? id : throw new ArgumentException();
         }
     }
 }

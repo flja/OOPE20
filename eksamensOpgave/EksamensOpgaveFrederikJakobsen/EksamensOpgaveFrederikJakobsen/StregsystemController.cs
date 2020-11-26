@@ -71,6 +71,11 @@ namespace EksamensOpgave
             {
                 switch (args.Count)
                 {
+                    case 1:
+                        {
+                            HandleUserCommand(args.ElementAt(0));
+                            break;
+                        }
                     case 2:
                         {
                             HandlePurchase(args.ElementAt(0), int.Parse(args.ElementAt(1)), 1);
@@ -95,6 +100,24 @@ namespace EksamensOpgave
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        void HandleUserCommand(string username)
+        {
+            try
+            {
+                User user = _stregsystem.GetUserByUsername(username);
+                IEnumerable<Transaction> transactions = _stregsystem.GetTransactions(user, 10);
+                _stregsystemUI.DisplayUserInfo(user);
+                foreach(Transaction t in transactions)
+                {
+                    _stregsystemUI.DisplayTransaction(t);
+                }
+            }
+            catch(UserNotFoundException)
+            {
+                _stregsystemUI.DisplayUserNotFound(username);
             }
         }
 

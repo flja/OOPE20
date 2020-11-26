@@ -145,5 +145,10 @@ namespace EksamensOpgave
         {
             Console.WriteLine($"Admin command: {adminCommand} er udført");
         }
+
+        public void DisplayTransaction(Transaction transaction)
+        {
+            Console.WriteLine(transaction.ToString());
+        }
     }
 }

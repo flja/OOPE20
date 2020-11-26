@@ -18,11 +18,12 @@ namespace EksamensOpgave.Models
 
         public Product(int id, string productName, int price, bool active, IValidation validation)
         {
+            Validation = validation;
             Id = id;
             Name = productName;
             Price = price;
             Active = active;
-            Validation = validation;
+            
         }
 
         public int Id

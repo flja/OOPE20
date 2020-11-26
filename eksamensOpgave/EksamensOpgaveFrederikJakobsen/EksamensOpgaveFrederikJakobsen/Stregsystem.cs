@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace EksamensOpgave
         List<Transaction> _transactions = new List<Transaction>();
         IValidation _validation;
 
-        public event EventHandler LowUserBalance;
+        //public event EventHandler LowUserBalance;
         public event UserBalanceNotification UserBalanceWarning;
 
         public Stregsystem()
@@ -45,6 +46,7 @@ namespace EksamensOpgave
                 if(subLines.Length >= 6)
                 {
                     user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]), _validation);
+                    user.UserBalanceNotification += UserBalanceWarning;
                     _users.Add(user);
                 }
             }
@@ -83,6 +85,7 @@ namespace EksamensOpgave
             BuyTransaction t = new BuyTransaction(user, product, _validation);
             t.Execute();
             _transactions.Add(t);
+            HandleLoggingTransactions(t);
             return t;
         }
         public Product GetProductByID(int id)
@@ -120,5 +123,12 @@ namespace EksamensOpgave
             }
         }
         private List<Product> Products { get => _products; set => _products = _validation.NullCheck(value); }
+        private void HandleLoggingTransactions(BuyTransaction transaction)
+        {
+            using (StreamWriter writer = new StreamWriter(new FileStream("TransactionLog.txt", FileMode.Append)))
+            {
+                writer.WriteLine(transaction.ToString());
+            }
+        }
     }
 }

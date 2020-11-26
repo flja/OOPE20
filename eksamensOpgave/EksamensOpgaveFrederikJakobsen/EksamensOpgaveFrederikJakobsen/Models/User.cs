@@ -6,7 +6,7 @@ using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Models
 {
-    delegate void UserBalanceNotification(User user, decimal balance);
+    delegate void UserBalanceNotification(User user, int balance);
     
 
     class User : IComparable
@@ -25,13 +25,13 @@ namespace EksamensOpgave.Models
         public User(int id, string firstName, string lastName, 
             string username, string email, int balance, IValidation validation)
         {
+            _validation = validation;
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             Username = username;
             Email = email;
             Balance = balance;
-            _validation = validation;
         }
 
         public int Id
