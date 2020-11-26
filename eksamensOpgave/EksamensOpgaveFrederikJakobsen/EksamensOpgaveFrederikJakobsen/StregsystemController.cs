@@ -20,6 +20,7 @@ namespace EksamensOpgave
             _stregsystem = stregsystem;
             _stregsystemUI = stregsystemCLI;
             _stregsystemUI.CommandEntered += ParseCommand;
+            _stregsystem.UserBalanceWarning += _stregsystemUI.DisplayUserLowOnMoney;
 
             _admincommands.Add(":q", (List<string> args) => stregsystemCLI.Close());
             _admincommands.Add(":quit", (List<string> args) => stregsystemCLI.Close());

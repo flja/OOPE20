@@ -150,5 +150,10 @@ namespace EksamensOpgave
         {
             Console.WriteLine(transaction.ToString());
         }
+
+        public void DisplayUserLowOnMoney(User user, decimal amount)
+        {
+            Console.WriteLine($"FÅ PENGE TILBAGE!!!!\n{user}\nBeløb: {amount}");
+        }
     }
 }

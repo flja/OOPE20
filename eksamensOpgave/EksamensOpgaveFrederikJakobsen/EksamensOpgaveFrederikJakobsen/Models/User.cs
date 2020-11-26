@@ -6,7 +6,7 @@ using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Models
 {
-    delegate void UserBalanceNotification(User user, int balance);
+    delegate void UserBalanceNotification(User user, decimal balance);
     
 
     class User : IComparable
@@ -122,7 +122,7 @@ namespace EksamensOpgave.Models
         }
         private void CheckForLowBalance()
         {
-            if (_balance < 50)
+            if (_balance < 5000)
                 UserBalanceNotification?.Invoke(this, _balance);
         }
         public int CompareTo(object obj)

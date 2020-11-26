@@ -46,7 +46,7 @@ namespace EksamensOpgave
                 if(subLines.Length >= 6)
                 {
                     user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]), _validation);
-                    user.UserBalanceNotification += UserBalanceWarning;
+                    user.UserBalanceNotification += (p1, p2) => UserBalanceWarning?.Invoke(p1, p2);
                     _users.Add(user);
                 }
             }
@@ -129,6 +129,10 @@ namespace EksamensOpgave
             {
                 writer.WriteLine(transaction.ToString());
             }
+        }
+        private void HandleUserBalanceWarning(User user, decimal balance)
+        {
+            UserBalanceWarning?.Invoke(user, balance);
         }
     }
 }
