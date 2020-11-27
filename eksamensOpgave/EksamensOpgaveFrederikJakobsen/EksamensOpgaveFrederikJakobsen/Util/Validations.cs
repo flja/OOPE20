@@ -7,7 +7,7 @@ using EksamensOpgave.Interfaces;
 namespace EksamensOpgave.Util
 {
     
-    class Validations : IValidation
+    public class Validations : IValidation
     {
         Regex _userNameRegex;
         Regex _emailRegex;
@@ -37,9 +37,9 @@ namespace EksamensOpgave.Util
         {
             return value == null ? throw new ArgumentNullException() : value;
         }
-        public int UniqueIdChecker(List<int> list, int id)
+        public bool UniqueIdChecker(List<int> list, int id)
         {
-            return list.Contains(id) == false ? id : throw new ArgumentException();
+            return list.Contains(id) == false ? true : false;
         }
     }
 }

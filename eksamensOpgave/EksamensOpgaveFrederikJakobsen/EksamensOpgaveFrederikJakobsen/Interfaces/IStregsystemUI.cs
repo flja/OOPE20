@@ -13,6 +13,8 @@ namespace EksamensOpgave.Interfaces
         void DisplayProductNotFound(string product);
         void DisplayProductInactive(string product);
         void DisplayUserInfo(User user);
+        void DisplayUserInfo(string userInfo);
+
         void DisplayUserLowOnMoney(User user, decimal amount);
         void DisplayArgumentCountError(string command); 
         void DisplayAdminCommandNotFoundMessage(string adminCommand);

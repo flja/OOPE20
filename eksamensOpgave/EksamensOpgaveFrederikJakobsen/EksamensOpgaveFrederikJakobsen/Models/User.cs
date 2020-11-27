@@ -7,7 +7,7 @@ using EksamensOpgave.Interfaces;
 namespace EksamensOpgave.Models
 {
     delegate void UserBalanceNotification(User user, decimal balance);
-    
+
 
     class User : IComparable
     {
@@ -22,7 +22,7 @@ namespace EksamensOpgave.Models
         IValidation _validation;
         public UserBalanceNotification UserBalanceNotification;
 
-        public User(int id, string firstName, string lastName, 
+        public User(int id, string firstName, string lastName,
             string username, string email, int balance, IValidation validation)
         {
             _validation = validation;
@@ -42,16 +42,16 @@ namespace EksamensOpgave.Models
             }
             private set
             {
-                if (value > 0)
+                if (value > 0 && _validation.UniqueIdChecker(_uniqueId, value))
                 {
-                    _uniqueId.Add(_validation.UniqueIdChecker(_uniqueId, value));
+                    _uniqueId.Add(value);
                     _id = value;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Number must be 1 or above!");
+                    throw new ArgumentException("ID is invalid");
             }
         }
-        public string FirstName 
+        public string FirstName
         {
             get
             {
@@ -65,8 +65,8 @@ namespace EksamensOpgave.Models
                     throw new ArgumentOutOfRangeException("Name can not be empty");
             }
         }
-        public string LastName 
-        { 
+        public string LastName
+        {
             get
             {
                 return _lastName;
@@ -93,7 +93,7 @@ namespace EksamensOpgave.Models
                     throw new ArgumentOutOfRangeException("Username can only contain [0-9], [a-z], '_'");
             }
         }
-        public string Email 
+        public string Email
         {
             get
             {
@@ -139,7 +139,7 @@ namespace EksamensOpgave.Models
         }
         public override string ToString()
         {
-            return $"{_firstName} {_lastName} {_email}";
+            return $"{_firstName} {_lastName}\nEmail: {_email}";
         }
     }
 }

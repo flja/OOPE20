@@ -28,6 +28,7 @@ namespace EksamensOpgave
             _admincommands.Add(":deactivate", (List<string> args) => HandleDeactiveProduct(args));
             _admincommands.Add(":crediton", (List<string> args) => HandleCreditOn(args));
             _admincommands.Add(":creditoff", (List<string> args) => HandleCreditOff(args));
+            _admincommands.Add(":addcredits", (List<string> args) => HandleAddCreditToUser(args));
         }
 
         void ParseCommand(string command)
@@ -55,7 +56,7 @@ namespace EksamensOpgave
                         HandleUserCMD(inputs);
                     }
                 }
-                catch(ArgumentOutOfRangeException)
+                catch (ArgumentOutOfRangeException)
                 {
                     _stregsystemUI.DisplayArgumentCountError(inputs.ElementAt(0));
                 }
@@ -110,13 +111,13 @@ namespace EksamensOpgave
             {
                 User user = _stregsystem.GetUserByUsername(username);
                 IEnumerable<Transaction> transactions = _stregsystem.GetTransactions(user, 10);
-                _stregsystemUI.DisplayUserInfo(user);
-                foreach(Transaction t in transactions)
+                _stregsystemUI.DisplayUserInfo(user.ToString()+$"Saldo: {user.Balance*0.01f}");
+                foreach (Transaction t in transactions)
                 {
                     _stregsystemUI.DisplayTransaction(t);
                 }
             }
-            catch(UserNotFoundException)
+            catch (UserNotFoundException)
             {
                 _stregsystemUI.DisplayUserNotFound(username);
             }
@@ -193,6 +194,24 @@ namespace EksamensOpgave
         void HandleCreditOn(List<string> args)
         {
             HandleBuyOnCreditOnOff(args.ElementAt(0), args.ElementAt(1), true);
+        }
+
+        void HandleAddCreditToUser(List<string> args)
+        {
+            try
+            {
+                int credit = int.Parse(args.ElementAt(2)) * 100;
+                _stregsystem.GetUserByUsername(args.ElementAt(1)).Balance += credit;
+                _stregsystemUI.DisplayAdminCommandSucced(args.ElementAt(0));
+            }
+            catch(UserNotFoundException)
+            {
+                _stregsystemUI.DisplayUserNotFound(args.ElementAt(1));
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                _stregsystemUI.DisplayArgumentCountError(args.ElementAt(0));
+            }
         }
 
         void HandleCreditOff(List<string> args)

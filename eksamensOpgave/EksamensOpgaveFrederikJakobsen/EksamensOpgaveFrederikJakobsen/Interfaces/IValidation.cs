@@ -11,6 +11,6 @@ namespace EksamensOpgave.Interfaces
         public bool ValidateEmail(string email);
         public T NullCheck<T>(T value);
 
-        public int UniqueIdChecker(List<int> list, int id);
+        public bool UniqueIdChecker(List<int> list, int id);
     }
 }

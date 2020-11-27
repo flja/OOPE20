@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Diagnostics;
 using EksamensOpgave.Util;
 using EksamensOpgave.Models;
 using EksamensOpgave.CustomExceptions;
@@ -24,13 +25,12 @@ namespace EksamensOpgave
         {
             _validation = new Validations(
                 new Regex(@"^[\w\d]+$"), 
-                new Regex(@"^[\w\.\-\,]+@[a-zA-Z0-9][a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$")
+                new Regex(@"^[\w\.\-]+@[a-zA-Z0-9][a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$")
                 );
 
             LoadUsers();
             LoadProducts();
         }
-
         private List<User> Users { get => _users; set => _users = _validation.NullCheck(value); }
         private List<Transaction> Transactions { get => _transactions; set => _transactions = _validation.NullCheck(value); }
         void LoadUsers()
@@ -41,14 +41,22 @@ namespace EksamensOpgave
 
             for(int i = 1; i < lines.Length; i++)
             {
-                string s = lines[i];
-                subLines = s.Split(new char[] { ',' });
-                if(subLines.Length >= 6)
+                try
                 {
-                    user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]), _validation);
-                    user.UserBalanceNotification += (p1, p2) => UserBalanceWarning?.Invoke(p1, p2);
-                    _users.Add(user);
+                    string s = lines[i];
+                    subLines = s.Split(new char[] { ',' });
+                    if (subLines.Length >= 6)
+                    {
+                        user = new User(int.Parse(subLines[0]), subLines[1], subLines[2].ToLower(), subLines[3], subLines[5], int.Parse(subLines[4]), _validation);
+                        user.UserBalanceNotification += (p1, p2) => UserBalanceWarning?.Invoke(p1, p2);
+                        _users.Add(user);
+                    }
                 }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                
             }
         }
         void LoadProducts()
@@ -59,17 +67,24 @@ namespace EksamensOpgave
 
             for (int i = 1; i < lines.Length; i++)
             {
-                //HTML remove syntax source : https://www.dotnetperls.com/remove-html-tags
-                string s = Regex.Replace(lines[i], "<.*?>", string.Empty);
-                subLines = s.Split(new char[] { ';' });
-                if (subLines.Length >= 5)
+                try
                 {
-                    product = new Product(
-                        int.Parse(subLines[0]), 
-                        subLines[1], int.Parse(subLines[2]), 
-                        subLines[3] == "1", _validation);
-                    product.Name = product.Name.Replace("\"", "");
-                    _products.Add(product);
+                    //HTML remove syntax source : https://www.dotnetperls.com/remove-html-tags
+                    string s = Regex.Replace(lines[i], "<.*?>", string.Empty);
+                    subLines = s.Split(new char[] { ';' });
+                    if (subLines.Length >= 5)
+                    {
+                        product = new Product(
+                            int.Parse(subLines[0]),
+                            subLines[1], int.Parse(subLines[2]),
+                            subLines[3] == "1", _validation);
+                        product.Name = product.Name.Replace("\"", "");
+                        _products.Add(product);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex);
                 }
             }
         }

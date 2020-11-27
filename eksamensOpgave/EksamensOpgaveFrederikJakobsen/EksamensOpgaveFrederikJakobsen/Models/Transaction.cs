@@ -27,14 +27,14 @@ namespace EksamensOpgave.Models
             get => _id;
             private set
             {
-                if (value > 0)
+                if (value > 0 && _validation.UniqueIdChecker(_uniqueId, value))
                 {
-                    _uniqueId.Add(_validation.UniqueIdChecker(_uniqueId, value));
+                    _uniqueId.Add(value);
                     _id = value;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Number must be 1 or above!");
-            } 
+                    throw new ArgumentException("ID is invalid");
+            }
         }
         public override string ToString()
         {

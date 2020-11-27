@@ -155,5 +155,10 @@ namespace EksamensOpgave
         {
             Console.WriteLine($"FÅ PENGE TILBAGE!!!!\n{user}\nBeløb: {amount}");
         }
+
+        public void DisplayUserInfo(string userInfo)
+        {
+            Console.WriteLine(userInfo);
+        }
     }
 }
