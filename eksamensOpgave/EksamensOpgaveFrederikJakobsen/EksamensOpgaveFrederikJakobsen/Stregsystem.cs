@@ -24,7 +24,7 @@ namespace EksamensOpgave
         public Stregsystem()
         {
             _validation = new Validations(
-                new Regex(@"^[\w\d]+$"), 
+                new Regex(@"^[\w\d]+$"),
                 new Regex(@"^[\w\.\-]+@[a-zA-Z0-9][a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$")
                 );
 
@@ -37,9 +37,9 @@ namespace EksamensOpgave
         {
             User user;
             string[] subLines;
-            string[] lines = Properties.Resources.users.Split(new char[] { '\n'});
+            string[] lines = Properties.Resources.users.Split(new char[] { '\n' });
 
-            for(int i = 1; i < lines.Length; i++)
+            for (int i = 1; i < lines.Length; i++)
             {
                 try
                 {
@@ -52,11 +52,11 @@ namespace EksamensOpgave
                         _users.Add(user);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }
-                
+
             }
         }
         void LoadProducts()
@@ -82,7 +82,7 @@ namespace EksamensOpgave
                         _products.Add(product);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }
@@ -107,21 +107,21 @@ namespace EksamensOpgave
         {
             Product product = Products.Where(p => p.Id == id).FirstOrDefault();
             if (product == null)
-                throw new ProductNotFoundException(id ,"No product with entered ID found");
+                throw new ProductNotFoundException(id, "No product with entered ID found");
             return product;
         }
         public IEnumerable<Transaction> GetTransactions(User user, int count)
         {
-            return Transactions.OrderByDescending(t => t.TransactionDate).Where(s=> s.User.Equals(user)).Take(count);
+            return Transactions.OrderByDescending(t => t.TransactionDate).Where(s => s.User.Equals(user)).Take(count);
         }
         public User GetUsers(Func<User, bool> predicate)
         {
-            foreach(User user in _users)
+            foreach (User user in _users)
             {
                 if (predicate(user))
                     return user;
             }
-            throw new UserNotFoundException("","No user was found");
+            throw new UserNotFoundException("", "No user was found");
         }
         public User GetUserByUsername(string username)
         {

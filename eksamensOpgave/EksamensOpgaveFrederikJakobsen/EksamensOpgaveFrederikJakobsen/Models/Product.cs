@@ -23,7 +23,7 @@ namespace EksamensOpgave.Models
             Name = productName;
             Price = price;
             Active = active;
-            
+
         }
 
         public int Id
@@ -40,8 +40,8 @@ namespace EksamensOpgave.Models
                     throw new ArgumentException("ID is invalid");
             }
         }
-        public string Name 
-        { 
+        public string Name
+        {
             get => _name;
             set
             {

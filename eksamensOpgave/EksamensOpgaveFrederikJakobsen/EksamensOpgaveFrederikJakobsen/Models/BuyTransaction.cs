@@ -9,7 +9,7 @@ namespace EksamensOpgave.Models
     class BuyTransaction : Transaction
     {
         Product _product;
-        public BuyTransaction(User user, Product product, IValidation validation) 
+        public BuyTransaction(User user, Product product, IValidation validation)
             : base(user, product.Price, validation)
         {
             Product = product;

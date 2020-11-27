@@ -9,21 +9,21 @@ namespace EksamensOpgave.Interfaces
 
     interface IStregsystemUI
     {
-        void DisplayUserNotFound(string username); 
+        void DisplayUserNotFound(string username);
         void DisplayProductNotFound(string product);
         void DisplayProductInactive(string product);
         void DisplayUserInfo(User user);
         void DisplayUserInfo(string userInfo);
 
         void DisplayUserLowOnMoney(User user, decimal amount);
-        void DisplayArgumentCountError(string command); 
+        void DisplayArgumentCountError(string command);
         void DisplayAdminCommandNotFoundMessage(string adminCommand);
         void DisplayAdminCommandSucced(string adminCommand);
         void DisplayUserBuysProduct(BuyTransaction transaction);
         void DisplayTransaction(Transaction transaction);
-        void DisplayUserBuysProduct(int count, BuyTransaction transaction); 
-        void Close(); void DisplayInsufficientCash(User user, Product product); 
-        void DisplayGeneralError(string errorString); 
+        void DisplayUserBuysProduct(int count, BuyTransaction transaction);
+        void Close(); void DisplayInsufficientCash(User user, Product product);
+        void DisplayGeneralError(string errorString);
         void Start();
         event StregsystemEvent CommandEntered;
     }

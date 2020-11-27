@@ -8,7 +8,7 @@ namespace EksamensOpgave.CustomExceptions
     class InaktivProductPurchaseExceptions : Exception
     {
         Product product;
-        public InaktivProductPurchaseExceptions(Product product, string message):base(message)
+        public InaktivProductPurchaseExceptions(Product product, string message) : base(message)
         {
             Product = product;
         }

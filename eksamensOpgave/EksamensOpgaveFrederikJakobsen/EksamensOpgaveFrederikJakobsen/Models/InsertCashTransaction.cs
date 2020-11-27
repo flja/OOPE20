@@ -7,8 +7,8 @@ namespace EksamensOpgave.Models
 {
     class InsertCashTransaction : Transaction
     {
-        public InsertCashTransaction(User user, int amount, IValidation validation )
-            :base(user, amount, validation)
+        public InsertCashTransaction(User user, int amount, IValidation validation)
+            : base(user, amount, validation)
         {
 
         }

@@ -17,13 +17,14 @@ namespace EksamensOpgave.Models
         public Transaction(User user, int amount, IValidation validation)
         {
             _validation = validation;
-            User = user; 
+            User = user;
             Amount = amount;
         }
         public int Amount { get => _amount; private set => _amount = value; }
         internal User User { get => _user; private set => _user = value; }
         public DateTime TransactionDate { get => _transactionDate; private set => _transactionDate = value; }
-        public int Id { 
+        public int Id
+        {
             get => _id;
             private set
             {

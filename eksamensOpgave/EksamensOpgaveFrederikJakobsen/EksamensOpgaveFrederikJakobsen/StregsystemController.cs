@@ -111,7 +111,7 @@ namespace EksamensOpgave
             {
                 User user = _stregsystem.GetUserByUsername(username);
                 IEnumerable<Transaction> transactions = _stregsystem.GetTransactions(user, 10);
-                _stregsystemUI.DisplayUserInfo(user.ToString()+$"Saldo: {user.Balance*0.01f}");
+                _stregsystemUI.DisplayUserInfo(user.ToString() + $"Saldo: {user.Balance * 0.01f}");
                 foreach (Transaction t in transactions)
                 {
                     _stregsystemUI.DisplayTransaction(t);
@@ -204,11 +204,11 @@ namespace EksamensOpgave
                 _stregsystem.GetUserByUsername(args.ElementAt(1)).Balance += credit;
                 _stregsystemUI.DisplayAdminCommandSucced(args.ElementAt(0));
             }
-            catch(UserNotFoundException)
+            catch (UserNotFoundException)
             {
                 _stregsystemUI.DisplayUserNotFound(args.ElementAt(1));
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 _stregsystemUI.DisplayArgumentCountError(args.ElementAt(0));
             }

@@ -60,11 +60,11 @@ namespace EksamensOpgave
         {
             Console.WriteLine(transaction.ToString());
         }
-        
+
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
             Console.WriteLine($"proukter købt:");
-            for(int i =0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 Console.WriteLine(transaction.ToString());
             }
@@ -86,20 +86,20 @@ namespace EksamensOpgave
             DrawMenu();
             stayAlive = true;
 
-            while(stayAlive)
+            while (stayAlive)
             {
                 try
                 {
                     CommandEntered?.Invoke(Console.ReadLine());
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     DrawMenu();
                     Debug.WriteLine(ex);
                 }
             }
         }
-        
+
         void DrawMenu()
         {
             Console.Clear();
@@ -117,7 +117,7 @@ namespace EksamensOpgave
 
             //Draw product lines
             //https://docs.microsoft.com/en-us/dotnet/standard/base-types/composite-formatting
-            Console.WriteLine($"|{{0,-{idStrLength}}}|{{1,-{productStrLength}}}|{{2,{priceStrLength}}}|","ID", "Produkter", "Pris");
+            Console.WriteLine($"|{{0,-{idStrLength}}}|{{1,-{productStrLength}}}|{{2,{priceStrLength}}}|", "ID", "Produkter", "Pris");
             CreateLine('-', width);
 
             foreach (Product p in stregsystem.ActiveProducts)
@@ -129,7 +129,7 @@ namespace EksamensOpgave
 
         void CreateLine(char toWrite, int count)
         {
-            for (int i = 0; i < count+4; i++)
+            for (int i = 0; i < count + 4; i++)
             {
                 Console.Write(toWrite);
             }

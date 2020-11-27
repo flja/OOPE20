@@ -8,11 +8,11 @@ namespace EksamensOpgave.Models
 {
     class SeasonalProduct : Product
     {
-        DateTime seasonEndDate;
-        DateTime seasonStartDate;
+        DateTime _seasonEndDate;
+        DateTime _seasonStartDate;
 
-        public SeasonalProduct(int id, string name, int price, DateTime startDate, 
-            DateTime endDate, IValidation validation) : base (id, name, price, false, validation)
+        public SeasonalProduct(int id, string name, int price, DateTime startDate,
+            DateTime endDate, IValidation validation) : base(id, name, price, false, validation)
         {
             SeasonStartDate = startDate;
             SeasonEndDate = endDate;
@@ -22,13 +22,13 @@ namespace EksamensOpgave.Models
         {
             get
             {
-                if (DateTime.Now >= seasonStartDate && DateTime.Now <= seasonEndDate)
+                if (DateTime.Now >= _seasonStartDate && DateTime.Now <= _seasonEndDate)
                     return true;
                 else
                     return false;
             }
         }
-        public DateTime SeasonEndDate { get => seasonEndDate; set => seasonEndDate = value; }
-        public DateTime SeasonStartDate { get => seasonStartDate; set => seasonStartDate = value; }
+        public DateTime SeasonEndDate { get => _seasonEndDate; set => _seasonEndDate = value; }
+        public DateTime SeasonStartDate { get => _seasonStartDate; set => _seasonStartDate = value; }
     }
 }

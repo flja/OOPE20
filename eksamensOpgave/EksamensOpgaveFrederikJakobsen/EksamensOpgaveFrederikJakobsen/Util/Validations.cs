@@ -6,12 +6,12 @@ using EksamensOpgave.Interfaces;
 
 namespace EksamensOpgave.Util
 {
-    
+
     public class Validations : IValidation
     {
         Regex _userNameRegex;
         Regex _emailRegex;
-        
+
         public Validations(Regex userNameRegex, Regex emailRegex)
         {
             _userNameRegex = userNameRegex;
@@ -19,7 +19,7 @@ namespace EksamensOpgave.Util
         }
         public bool ValidateName(string name)
         {
-            
+
             if (name?.Length > 0)
                 return true;
             else

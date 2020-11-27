@@ -7,7 +7,7 @@ namespace EksamensOpgave.CustomExceptions
     class ProductNotFoundException : KeyNotFoundException
     {
         int productIdNotFound;
-        public ProductNotFoundException(int productId, string message):base (message)
+        public ProductNotFoundException(int productId, string message) : base(message)
         {
             ProductIdNotFound = productId;
         }
